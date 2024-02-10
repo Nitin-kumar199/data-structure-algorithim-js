@@ -45,21 +45,21 @@ cookieTwo.setColor("red");
 
 // pointers
 //this example when not using pointers
-let num1 = 5;
-let num2 = num1;
+// let num1 = 5;
+// let num2 = num1;
 //console.log(num1, " ", num2);
-num1 = 10;
+// num1 = 10;
 //console.log(num1, " ", num2);
 //this example with pointers
 
-let obj1 = {
-  value: 11,
-};
-let obj2 = obj1;
+// let obj1 = {
+//   value: 11,
+// };
+// let obj2 = obj1;
 
 //console.log(obj1);
 //console.log(obj2);
-obj1.value = 22;
+// obj1.value = 22;
 //console.log(obj1);
 //console.log(obj2);
 
@@ -123,6 +123,12 @@ obj1.value = 22;
 //   value = 4
 //   next = null
 // }
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
 
 class LinkedList {
   constructor(value) {
@@ -198,21 +204,76 @@ class LinkedList {
     }
     return temp;
   }
+  //set the value at the index
+  set(index, value) {
+    let temp = this.get(index);
+    if (temp) {
+      temp.value = value;
+      return true;
+    }
+    return false;
+  }
+  //adding between the indexes
+  insert(index, value) {
+    if (index === 0) return this.unshift(value);
+    if (index === this.length) return this.push(value);
+    if (index < 0 || index > this.length) return false;
+    const newNode = new Node(value);
+    const temp = this.get(index - 1);
+    newNode.next = temp.next;
+    temp.next = newNode;
+    this.length++;
+    return true;
+  }
+  remove(index) {
+    if (index === 0) return this.shift();
+    if (index === this.length - 1) return this.pop();
+    if (index < 0 || index >= this.length) return undefined;
+
+    const before = this.get(index - 1);
+    const temp = before.next;
+    before.next = temp.next;
+    temp.next = null;
+    this.length--;
+    return temp;
+  }
+  reverse() {
+    let temp = this.head;
+    this.head = this.tail;
+    this.tail = temp;
+    let next = temp.next;
+    let prev = null;
+    for (let i = 0; i < this.length; i++) {
+      next = temp.next;
+      temp.next = prev;
+      prev = temp;
+      temp = next;
+    }
+    return this;
+  }
 }
-let myLinkedLists = new LinkedList(4);
+let myLinkedLists = new LinkedList(10);
 // console.log(myLinkedLists);
-myLinkedLists.push(8);
+myLinkedLists.push(20);
+myLinkedLists.push(30);
+myLinkedLists.push(40);
 // console.log(myLinkedLists);
 // myLinkedLists.pop();
 // console.log(myLinkedLists);
 // myLinkedLists.pop();
 // console.log(myLinkedLists);
-myLinkedLists.push(3);
+// myLinkedLists.push(3);
 // myLinkedLists.push(23);
 // myLinkedLists.push(7);
 // myLinkedLists.unshift(9);
 // myLinkedLists.push(1);
 // myLinkedLists.shift();
 // myLinkedLists.shift();
-console.log(myLinkedLists.get(2));
-console.log(myLinkedLists);
+// console.log(myLinkedLists.get(2));
+// console.log(myLinkedLists);
+// console.log(myLinkedLists.set(1, 100));
+// console.log(myLinkedLists.get(1));
+// console.log(myLinkedLists.remove(1));
+// console.log(myLinkedLists);
+
+console.log(myLinkedLists.reverse());
